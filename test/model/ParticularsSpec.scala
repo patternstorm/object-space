@@ -2,7 +2,7 @@ package model
 
 import org.scalatestplus.play.PlaySpec
 
-class ParticularsSpec extends PlaySpec with Individuals {
+class ParticularsSpec extends PlaySpec with Space {
 
   "A Particular" must {
     "be instantiable as a singleton" in {

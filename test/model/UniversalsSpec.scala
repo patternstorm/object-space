@@ -2,7 +2,7 @@ package model
 
 import org.scalatestplus.play.PlaySpec
 
-class UniversalsSpec extends PlaySpec with Individuals {
+class UniversalsSpec extends PlaySpec with Space {
 
   "A Universal" must {
     "be instantiable as a singleton" in {
