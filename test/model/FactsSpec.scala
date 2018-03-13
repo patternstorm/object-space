@@ -78,7 +78,7 @@ class FactsSpec extends PlaySpec with Space {
       implicit object Fact extends ⊨[by[x, y, R]]
       ⊢(¬((x ~ y by R))) mustBe Refutable(Set(Fact))
     }
-    "Be able, together with another fact, to make true a proposition standing for the conjunction of two Propositions" in {
+    "Be able, together with another fact, to make true a proposition stating the conjunction of two Propositions" in {
       type x = x.type
       implicit object x extends Particular
       type y = y.type
@@ -91,7 +91,36 @@ class FactsSpec extends PlaySpec with Space {
       implicit object Fact2 extends ⊨[y is B]
       ⊢((x is A) ∧ (y is B)) mustBe Provable(Set(Fact1, Fact2))
     }
-    "Be able to make true a proposition standing for the disjunction of two Propositions" in {
+    "Be able to make false a proposition stating the conjunction of two Propositions by falsifying " +
+      "the Proposition to the right of the conjunction" in {
+      type x = x.type
+      implicit object x extends Particular
+      type y = y.type
+      implicit object y extends Particular
+      type A = A.type
+      implicit object A extends Quality
+      type B = B.type
+      implicit object B extends Quality
+      implicit object Fact1 extends ⊨[x is A]
+      implicit object Fact2 extends ⊨[¬[y is B]]
+      ⊢((x is A) ∧ (y is B)) mustBe Refutable(Set(Fact2))
+    }
+    "Be able to make false a proposition stating the conjunction of two Propositions by falsifying " +
+      "the Proposition to the left of the conjunction" in {
+      type x = x.type
+      implicit object x extends Particular
+      type y = y.type
+      implicit object y extends Particular
+      type A = A.type
+      implicit object A extends Quality
+      type B = B.type
+      implicit object B extends Quality
+      implicit object Fact1 extends ⊨[¬[x is A]]
+      implicit object Fact2 extends ⊨[y is B]
+      ⊢((x is A) ∧ (y is B)) mustBe Refutable(Set(Fact1))
+    }
+    "Be able to make true a proposition stating the disjunction of two Propositions by verifying " +
+      "the Proposition to the left of the conjunction" in {
       type x = x.type
       implicit object x extends Particular
       type y = y.type
@@ -102,6 +131,33 @@ class FactsSpec extends PlaySpec with Space {
       implicit object B extends Quality
       implicit object Fact1 extends ⊨[x is A]
       ⊢((x is A) ∨ (y is B)) mustBe Provable(Set(Fact1))
+    }
+    "Be able to make true a proposition stating the disjunction of two Propositions by verifying " +
+      "the Proposition to the right of the conjunction" in {
+      type x = x.type
+      implicit object x extends Particular
+      type y = y.type
+      implicit object y extends Particular
+      type A = A.type
+      implicit object A extends Quality
+      type B = B.type
+      implicit object B extends Quality
+      implicit object Fact1 extends ⊨[y is B]
+      ⊢((x is A) ∨ (y is B)) mustBe Provable(Set(Fact1))
+    }
+    "Be able to make false, together with another fact, a proposition stating the disjunction of two Propositions by falsifying " +
+      "both Propositions in the disjunction" in {
+      type x = x.type
+      implicit object x extends Particular
+      type y = y.type
+      implicit object y extends Particular
+      type A = A.type
+      implicit object A extends Quality
+      type B = B.type
+      implicit object B extends Quality
+      implicit object Fact1 extends ⊨[¬[x is A]]
+      implicit object Fact2 extends ⊨[¬[y is B]]
+      ⊢((x is A) ∨ (y is B)) mustBe Refutable(Set(Fact1, Fact2))
     }
 //    "Exist to express the implication of two Propositions" in {
 //    }
