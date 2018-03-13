@@ -1,5 +1,7 @@
 package model
 
+import model.statements.Propositions
+
 trait Individuals {
   self: Propositions =>
 

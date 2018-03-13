@@ -1,4 +1,6 @@
-package model
+package model.statements
+
+import model.Individuals
 
 trait Propositions {
   self: Individuals =>
