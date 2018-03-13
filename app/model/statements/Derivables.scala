@@ -1,7 +1,5 @@
 package model.statements
 
-import model.Facts
-
 trait Derivables {
   self: Propositions with Assertables with Facts =>
 

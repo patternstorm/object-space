@@ -1,5 +1,6 @@
-package model
+package model.statements
 
+import model.Space
 import org.scalatestplus.play.PlaySpec
 
 class FactsSpec extends PlaySpec with Space {
@@ -8,8 +9,8 @@ class FactsSpec extends PlaySpec with Space {
     "Be able to make true a Proposition stating that an Individual has a Quality" in {
       type x = x.self
       val x = Particular
-      type A = A.type
-      implicit object A extends Quality
+      type A = A.self
+      val A = Quality
       implicit object Fact extends ⊨[x is A]
       implicitly[⊢[x is A]]
       ⊢(x is A) mustBe Provable(Set(Fact))
@@ -17,24 +18,24 @@ class FactsSpec extends PlaySpec with Space {
     "Be able to make false a Proposition stating that an Individual has a Quality" in {
       type x = x.self
       val x = Particular
-      type A = A.type
-      implicit object A extends Quality
+      type A = A.self
+      val A = Quality
       implicit object Fact extends ⊨[x is A]
       ⊢(¬(x is A)) mustBe Refutable(Set(Fact))
     }
     "Be able to make true a Proposition stating that an Individual does not have a Quality" in {
       type x = x.self
       val x = Particular
-      type A = A.type
-      implicit object A extends Quality
+      type A = A.self
+      val A = Quality
       implicit object Fact extends ⊨[¬[x is A]]
       ⊢(¬(x is A)) mustBe Provable(Set(Fact))
     }
     "Be able to make false a Proposition stating that an Individual does not have a Quality" in {
       type x = x.self
       val x = Particular
-      type A = A.type
-      implicit object A extends Quality
+      type A = A.self
+      val A = Quality
       implicit object Fact extends ⊨[¬[x is A]]
       ⊢(x is A) mustBe Refutable(Set(Fact))
     }
@@ -43,8 +44,8 @@ class FactsSpec extends PlaySpec with Space {
       val x = Particular
       type y = y.self
       val y = Particular
-      type R = R.type
-      implicit object R extends Relation
+      type R = R.self
+      val R = Relation
       implicit object Fact extends ⊨[by[x, y, R]]
       ⊢(x ~ y by R) mustBe Provable(Set(Fact))
     }
@@ -53,8 +54,8 @@ class FactsSpec extends PlaySpec with Space {
       val x = Particular
       type y = y.self
       val y = Particular
-      type R = R.type
-      implicit object R extends Relation
+      type R = R.self
+      val R = Relation
       implicit object Fact extends ⊨[¬[by[x, y, R]]]
       ⊢((x ~ y by R)) mustBe Refutable(Set(Fact))
     }
@@ -63,8 +64,8 @@ class FactsSpec extends PlaySpec with Space {
       val x = Particular
       type y = y.self
       val y = Particular
-      type R = R.type
-      implicit object R extends Relation
+      type R = R.self
+      val R = Relation
       implicit object Fact extends ⊨[¬[by[x, y, R]]]
       ⊢(¬((x ~ y by R))) mustBe Provable(Set(Fact))
     }
@@ -73,8 +74,8 @@ class FactsSpec extends PlaySpec with Space {
       val x = Particular
       type y = y.self
       val y = Particular
-      type R = R.type
-      implicit object R extends Relation
+      type R = R.self
+      val R = Relation
       implicit object Fact extends ⊨[by[x, y, R]]
       ⊢(¬((x ~ y by R))) mustBe Refutable(Set(Fact))
     }
@@ -83,10 +84,10 @@ class FactsSpec extends PlaySpec with Space {
       val x = Particular
       type y = y.self
       val y = Particular
-      type A = A.type
-      implicit object A extends Quality
-      type B = B.type
-      implicit object B extends Quality
+      type A = A.self
+      val A = Quality
+      type B = B.self
+      val B = Quality
       implicit object Fact1 extends ⊨[x is A]
       implicit object Fact2 extends ⊨[y is B]
       ⊢((x is A) ∧ (y is B)) mustBe Provable(Set(Fact1, Fact2))
@@ -97,10 +98,10 @@ class FactsSpec extends PlaySpec with Space {
       val x = Particular
       type y = y.self
       val y = Particular
-      type A = A.type
-      implicit object A extends Quality
-      type B = B.type
-      implicit object B extends Quality
+      type A = A.self
+      val A = Quality
+      type B = B.self
+      val B = Quality
       implicit object Fact1 extends ⊨[x is A]
       implicit object Fact2 extends ⊨[¬[y is B]]
       ⊢((x is A) ∧ (y is B)) mustBe Refutable(Set(Fact2))
@@ -111,10 +112,10 @@ class FactsSpec extends PlaySpec with Space {
       val x = Particular
       type y = y.self
       val y = Particular
-      type A = A.type
-      implicit object A extends Quality
-      type B = B.type
-      implicit object B extends Quality
+      type A = A.self
+      val A = Quality
+      type B = B.self
+      val B = Quality
       implicit object Fact1 extends ⊨[¬[x is A]]
       implicit object Fact2 extends ⊨[y is B]
       ⊢((x is A) ∧ (y is B)) mustBe Refutable(Set(Fact1))
@@ -125,10 +126,10 @@ class FactsSpec extends PlaySpec with Space {
       val x = Particular
       type y = y.self
       val y = Particular
-      type A = A.type
-      implicit object A extends Quality
-      type B = B.type
-      implicit object B extends Quality
+      type A = A.self
+      val A = Quality
+      type B = B.self
+      val B = Quality
       implicit object Fact1 extends ⊨[x is A]
       ⊢((x is A) ∨ (y is B)) mustBe Provable(Set(Fact1))
     }
@@ -138,10 +139,10 @@ class FactsSpec extends PlaySpec with Space {
       val x = Particular
       type y = y.self
       val y = Particular
-      type A = A.type
-      implicit object A extends Quality
-      type B = B.type
-      implicit object B extends Quality
+      type A = A.self
+      val A = Quality
+      type B = B.self
+      val B = Quality
       implicit object Fact1 extends ⊨[y is B]
       ⊢((x is A) ∨ (y is B)) mustBe Provable(Set(Fact1))
     }
@@ -151,18 +152,18 @@ class FactsSpec extends PlaySpec with Space {
       val x = Particular
       type y = y.self
       val y = Particular
-      type A = A.type
-      implicit object A extends Quality
-      type B = B.type
-      implicit object B extends Quality
+      type A = A.self
+      val A = Quality
+      type B = B.self
+      val B = Quality
       implicit object Fact1 extends ⊨[¬[x is A]]
       implicit object Fact2 extends ⊨[¬[y is B]]
       ⊢((x is A) ∨ (y is B)) mustBe Refutable(Set(Fact1, Fact2))
     }
-//    "Exist to express the implication of two Propositions" in {
-//    }
-//    "Exist to express the negation of a Proposition" in {
-//    }
+    //    "Exist to express the implication of two Propositions" in {
+    //    }
+    //    "Exist to express the negation of a Proposition" in {
+    //    }
   }
 
 }

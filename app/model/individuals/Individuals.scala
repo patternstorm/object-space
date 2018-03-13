@@ -2,29 +2,33 @@ package model.individuals
 
 import model.statements.Propositions
 
+
 trait Individuals {
   self: Propositions =>
 
   trait Rep {
     type self <: Individual
+
+    def is(A: Rep)(implicit ev: Quality[A.self]): this.self is A.self = new is[this.self, A.self]
+
+    def ~(x: Rep): this.self ~ x.self = new ~[this.self, x.self]
   }
 
   trait Individual {
+    this: Individual with Singleton =>
     type self <: Individual
-
-    def is[A <: Quality](A: A): self is A = new is[self, A]
-
-    def ~(x: Rep): self ~ x.self = new ~[self, x.self]
   }
 
-  trait Universal extends Individual
+  trait Particular[X <: Individual]
 
-  trait Quality extends Universal
+  trait Universal[X <: Individual]
 
-  trait Relation extends Universal
+  trait Quality[X <: Individual] extends Universal[X]
+
+  trait Relation[X <: Individual] extends Universal[X]
 
   case class ~[X <: Individual, Y <: Individual]() {
-    def by[R <: Relation](R: R): by[X, Y, R] = new by[X, Y, R]
+    def by(R: Rep)(implicit ev: Relation[R.self]): by[X, Y, R.self] = new by[X, Y, R.self]
   }
 
 }

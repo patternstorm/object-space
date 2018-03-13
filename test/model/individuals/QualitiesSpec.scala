@@ -6,16 +6,27 @@ import org.scalatestplus.play.PlaySpec
 class QualitiesSpec extends PlaySpec with Space {
 
   "A Quality" must {
-    "be instantiable as a singleton" in {
-      object aQuality extends Quality
-    }
-    "be an Universal" in {
-      object aQuality extends Quality
-      val aUniversal: Universal = aQuality
+    "exist after being instantiated as a Quality" in {
+      val A = Quality
+      type A = A.self
+      implicitly[A] mustEqual A.self
+      implicitly[Quality[A]] mustEqual A.self.asQuality
     }
     "be an Individual" in {
-      object aQuality extends Quality
-      val anIndividual: Individual = aQuality
+      val x: Individual = Quality
+    }
+    "be an Universal" in {
+      val A = Quality
+      type A = A.self
+      implicitly[Universal[A]] mustEqual A.self.asQuality
+    }
+    "be different from any other Particular" in {
+      val A = Quality
+      type A = A.self
+      val B = Quality
+      type B = B.self
+      "implicitly[A =:= B]" mustNot compile
+      implicitly[A] mustNot be(implicitly[B])
     }
   }
 

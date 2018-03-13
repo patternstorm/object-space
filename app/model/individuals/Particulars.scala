@@ -5,8 +5,6 @@ trait Particulars {
 
   def Particular: RepParticular = new RepParticular() {}
 
-  trait Particular[X <: Individual]
-
   trait RepParticular extends Rep {
     override type self = self.type
 
@@ -20,6 +18,6 @@ trait Particulars {
 
   }
 
-  implicit def asIndividual(x: RepParticular): Individual {type self = x.self} = x.self
+  implicit def repParticular2Individual(x: RepParticular): Individual {type self = x.self} = x.self
 
 }

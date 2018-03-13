@@ -1,6 +1,4 @@
-package model
-
-import model.statements.{Assertables, Propositions}
+package model.statements
 
 trait Facts {
   self: Propositions with Assertables =>

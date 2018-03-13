@@ -6,13 +6,9 @@ import org.scalatestplus.play.PlaySpec
 class IndividualsSpec extends PlaySpec with Space {
 
   "An Individual" must {
-    "be instantiable as a singleton" in {
-      object anIndividual extends Individual
-    }
-    "be different from any other individual" in {
+    "be instantiable only as as a singleton" in {
       object x extends Individual
-      object y extends Individual
-      x mustNot equal(y)
+      "trait Concept extends Individual" mustNot compile
     }
   }
 
