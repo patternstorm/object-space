@@ -63,8 +63,8 @@ class PropositionsSpec extends PlaySpec with Space {
       implicit object x extends Particular
       type A = A.type
       implicit object A extends Quality
-      val p: Proposition = implicitly[![is[x, A]]]
-      p mustBe !(implicitly[is[x, A]])
+      val p: Proposition = implicitly[¬[is[x, A]]]
+      p mustBe ¬(implicitly[is[x, A]])
     }
   }
 

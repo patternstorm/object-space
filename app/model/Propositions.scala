@@ -6,9 +6,7 @@ trait Propositions {
   trait Proposition {
     def ∧[P <: Proposition](p: P): this.type ∧ P = new ∧(this, p)
     def ∨[P <: Proposition](p: P): this.type ∨ P = new ∨(this, p)
-
     def ⊃[P <: Proposition](p: P): this.type ⊃ P = new ⊃(this, p)
-    def unary_! = new !(this)
   }
 
   trait AtomicProposition extends Proposition
@@ -19,7 +17,12 @@ trait Propositions {
   case class ∧[+P <: Proposition, Q <: Proposition](left: P, right: Q) extends MolecularProposition
   case class ∨[+P <: Proposition, Q <: Proposition](left: P, right: Q) extends MolecularProposition
   case class ⊃[P <: Proposition, Q <: Proposition](left: P, right: Q) extends MolecularProposition
-  case class ![P <: Proposition](arg: P) extends MolecularProposition
+
+  case class ¬[P <: Proposition](arg: P) extends MolecularProposition
+
+  object ¬ {
+    def apply[P <: Proposition](P: P): ¬[P] = new ¬(P)
+  }
 
   object Proposition {
     implicit def qualifyIndividual[X <: Individual, Q <: Quality](implicit x: X, Q: Q): X is Q = new is[X, Q]
@@ -32,7 +35,7 @@ trait Propositions {
 
     implicit def implication[P <: Proposition, Q <: Proposition](implicit P: P, Q: Q): P ⊃ Q = ⊃(P, Q)
 
-    implicit def negation[P <: Proposition](implicit P: P): ![P] = new !(P)
+    implicit def negation[P <: Proposition](implicit P: P): ¬[P] = new ¬(P)
   }
 
 }
