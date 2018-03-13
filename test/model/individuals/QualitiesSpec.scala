@@ -1,5 +1,6 @@
-package model
+package model.individuals
 
+import model.Space
 import org.scalatestplus.play.PlaySpec
 
 class QualitiesSpec extends PlaySpec with Space {

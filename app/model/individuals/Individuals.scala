@@ -1,18 +1,26 @@
-package model
+package model.individuals
 
 import model.statements.Propositions
 
 trait Individuals {
   self: Propositions =>
 
-  trait Individual {
-    def is[A <: Quality](A: A): this.type is A = new is[this.type, A]
-    def ~[X <: Individual](x: X): this.type ~ X = new ~[this.type, X]
+  trait Rep {
+    type self <: Individual
   }
 
-  trait Particular extends Individual
+  trait Individual {
+    type self <: Individual
+
+    def is[A <: Quality](A: A): self is A = new is[self, A]
+
+    def ~(x: Rep): self ~ x.self = new ~[self, x.self]
+  }
+
   trait Universal extends Individual
+
   trait Quality extends Universal
+
   trait Relation extends Universal
 
   case class ~[X <: Individual, Y <: Individual]() {

@@ -1,6 +1,6 @@
 package model.statements
 
-import model.Individuals
+import model.individuals.Individuals
 
 trait Propositions {
   self: Individuals =>
