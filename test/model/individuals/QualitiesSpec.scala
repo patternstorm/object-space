@@ -1,9 +1,10 @@
 package model.individuals
 
-import model.Space
+import model.spaces.Spaces
+import model.statements.Propositions
 import org.scalatestplus.play.PlaySpec
 
-class QualitiesSpec extends PlaySpec with Space {
+class QualitiesSpec extends PlaySpec with Individuals with Propositions with Relations with Qualities {
 
   "A Quality" must {
     "exist after being instantiated as a Quality" in {

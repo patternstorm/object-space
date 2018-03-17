@@ -1,9 +1,9 @@
 package model.statements
 
-import model.Space
+import model.individuals.{Individuals, Particulars, Qualities, Relations}
 import org.scalatestplus.play.PlaySpec
 
-class PropositionsSpec extends PlaySpec with Space {
+class PropositionsSpec extends PlaySpec with Individuals with Particulars with Propositions with Relations with Qualities {
 
   "A Proposition P" must {
     "Exist to express that an Individual has a given Quality" in {

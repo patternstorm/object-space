@@ -1,9 +1,11 @@
 package model.statements
 
-import model.Space
+import model.individuals.{Individuals, Particulars, Qualities, Relations}
+import model.spaces.Spaces
 import org.scalatestplus.play.PlaySpec
 
-class FactsSpec extends PlaySpec with Space {
+class FactsSpec extends PlaySpec with Individuals with Particulars with Qualities with Relations with
+  Propositions with Assertables with Derivables with Facts {
 
   "A Fact" must {
     "Be able to make true a Proposition stating that an Individual has a Quality" in {
