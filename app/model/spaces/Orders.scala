@@ -1,6 +1,6 @@
 package model.spaces
 
-trait Orders {
+object Orders {
 
   type Z = Z.type
 
@@ -13,6 +13,7 @@ trait Orders {
 
   implicit object Z extends Order {
     override type succ = S[Z]
+    override type pred = Nothing
   }
 
   case class S[N <: Order](n: N) extends Order {
@@ -26,7 +27,6 @@ trait Orders {
 
   object < {
     implicit def less1[N <: Order]: N < S[N] = <[N, S[N]]
-
     implicit def less2[N <: Order, M <: Order](implicit ev: N < M): N < S[M] = <[N, S[M]]
   }
 

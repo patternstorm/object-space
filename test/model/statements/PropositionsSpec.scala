@@ -1,72 +1,76 @@
 package model.statements
 
-import model.individuals.{Individuals, Particulars, Qualities, Relations}
+
+import model.spaces.Orders._
+import model.spaces.Space._
 import org.scalatestplus.play.PlaySpec
 
-class PropositionsSpec extends PlaySpec with Individuals with Particulars with Propositions with Relations with Qualities {
+
+class PropositionsSpec extends PlaySpec {
 
   "A Proposition P" must {
-    "Exist to express that an Individual has a given Quality" in {
+    "exist to express that an Individual of order N belongs to an Individual of Order N+1" in {
       type x = x.self
-      val x = Particular
+      implicit object x extends AtomicIndividual[Z]
       type A = A.self
-      val A = Quality
-      implicitly[is[x, A]]
-      val p: Proposition = implicitly[is[x, A]]
-      p mustBe (x is A)
+      implicit object A extends AtomicIndividual[S[Z]]
+      implicitly[x ∈ A]
     }
-    "Exist to express that two Individuals are related by a Relation" in {
+    "not exist to express that an Individual of order N belongs to another Individual of Order N" in {
       type x = x.self
-      val x = Particular
+      implicit object x extends AtomicIndividual[Z]
       type y = y.self
-      val y = Particular
-      type R = R.self
-      val R = Relation
-      val p: Proposition = implicitly[by[x, y, R]]
-      p mustBe (x ~ y by R)
+      implicit object y extends AtomicIndividual[Z]
+      "implicitly[x is y]" mustNot compile
     }
-    "Exist to express the conjunction of two Propositions" in {
+    "not exist to express that an Individual of order N belongs to an Individual of Order N+2" in {
       type x = x.self
-      val x = Particular
+      implicit object x extends AtomicIndividual[Z]
+      type A = A.self
+      implicit object A extends AtomicIndividual[S[S[Z]]]
+      "implicitly[x is A]" mustNot compile
+    }
+    "exist to express the conjunction of two Propositions" in {
+      type x = x.self
+      implicit object x extends AtomicIndividual[Z]
       type y = y.self
-      val y = Particular
+      implicit object y extends AtomicIndividual[Z]
       type A = A.self
-      val A = Quality
+      implicit object A extends AtomicIndividual[S[Z]]
       type B = B.self
-      val B = Quality
-      val p: Proposition = implicitly[∧[is[x, A], is[y, B]]]
-      p mustBe (implicitly[x is A] ∧ implicitly[y is B])
+      implicit object B extends AtomicIndividual[S[Z]]
+      val p: Proposition = implicitly[(x ∈ A) ∧ (y ∈ B)]
+      p mustBe (implicitly[x ∈ A] ∧ implicitly[y ∈ B])
     }
-    "Exist to express the disjunction of two Propositions" in {
+    "exist to express the disjunction of two Propositions" in {
       type x = x.self
-      val x = Particular
+      implicit object x extends AtomicIndividual[Z]
       type y = y.self
-      val y = Particular
+      implicit object y extends AtomicIndividual[Z]
       type A = A.self
-      val A = Quality
+      implicit object A extends AtomicIndividual[S[Z]]
       type B = B.self
-      val B = Quality
-      val p: Proposition = implicitly[∨[is[x, A], is[y, B]]]
-      p mustBe (implicitly[x is A] ∨ implicitly[y is B])
+      implicit object B extends AtomicIndividual[S[Z]]
+      val p: Proposition = implicitly[(x ∈ A) ∨ (y ∈ B)]
+      p mustBe (implicitly[x ∈ A] ∨ implicitly[y ∈ B])
     }
-    "Exist to express the implication of two Propositions" in {
+    "exist to express the implication of two Propositions" in {
       type x = x.self
-      val x = Particular
+      implicit object x extends AtomicIndividual[Z]
       type A = A.self
-      val A = Quality
+      implicit object A extends AtomicIndividual[S[Z]]
       type B = B.self
-      val B = Quality
-      val p: Proposition = implicitly[⊃[is[x, A], is[x, B]]]
-      p mustBe (implicitly[x is A] ⊃ implicitly[x is B])
+      implicit object B extends AtomicIndividual[S[Z]]
+      val p: Proposition = implicitly[(x ∈ A) ⊃ (x ∈ B)]
+      p mustBe (implicitly[x ∈ A] ⊃ implicitly[x ∈ B])
     }
-    "Exist to express the negation of a Proposition" in {
+    "exist to express the negation of a Proposition" in {
       type x = x.self
-      val x = Particular
+      implicit object x extends AtomicIndividual[Z]
       type A = A.self
-      val A = Quality
-      val p: Proposition = implicitly[¬[is[x, A]]]
-      p mustBe ¬(implicitly[is[x, A]])
+      implicit object A extends AtomicIndividual[S[Z]]
+      val p: Proposition = implicitly[¬[x ∈ A]]
+      p mustBe ¬(implicitly[x ∈ A])
     }
   }
-
 }
